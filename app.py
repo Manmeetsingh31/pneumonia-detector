@@ -9,7 +9,7 @@ import os
 
 # 1. Download model from Google Drive if not present
 model_path = "pneumonia_cnn_model.h5"
-gdrive_file_id = "1nP1sWihrPi8v9pAdFMpQDBkUTycm_17t"  # 🔁 Replace with your actual Google Drive file ID
+gdrive_file_id = "1nP1sWihrPi8v9pAdFMpQDBkUTycm_17t" 
 
 if not os.path.exists(model_path):
     with st.spinner("Downloading model... Please wait."):
@@ -36,11 +36,10 @@ if uploaded_file is not None:
     img_array = image.img_to_array(img_resized) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    # Predict
+    # Predict (same logic as in your Jupyter notebook)
     prediction = model.predict(img_array)[0][0]
-    label = "PNEUMONIA" if prediction > 0.5 else "NORMAL"
-    confidence = prediction if label == "PNEUMONIA" else 1 - prediction
-    confidence_percent = confidence * 100
+    label = "PNEUMONIA" if prediction >= 0.5 else "NORMAL"
+    confidence_percent = prediction * 100 if label == "PNEUMONIA" else (1 - prediction) * 100
     color = 'red' if label == 'PNEUMONIA' else 'green'
 
     # Display result using matplotlib
