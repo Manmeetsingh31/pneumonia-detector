@@ -54,7 +54,7 @@ Callbacks: EarlyStopping, ReduceLROnPlateau
 ![UI](assets/ui.png)
 
 ### Prediction Result
-![Result] : (assets/result.png)  (assets/result().png)    
+![Result](assets/result.png)(assets/result().png)   
                
 
 ## 🌐 Live Demo
