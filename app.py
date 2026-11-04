@@ -51,4 +51,4 @@ if uploaded_file is not None:
 
 # Optional footer
 st.markdown("---")
-st.markdown("<p style='text-align: center;'>Developed by Manmeet Singh | Punjabi University, Patiala</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Developed by Amanpreet Singh & Gurkirat Singh | Punjabi University, Patiala</p>", unsafe_allow_html=True)
