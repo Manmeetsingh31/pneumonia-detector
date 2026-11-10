@@ -506,8 +506,7 @@ st.markdown(
 
         <br><br>
 
-        Developed by Amanpreet Singh and
-        Gurkirat Singh
+        Developed by Manmeet Singh
 
         <br>
         Punjabi University, Patiala
