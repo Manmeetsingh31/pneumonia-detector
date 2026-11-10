@@ -1,1 +1,23 @@
 
+NORMAL CHEST X-RAY INFORMATION
+
+A normal chest X-ray generally indicates that
+no significant abnormality was identified
+in the structures examined.
+
+NORMAL LUNG APPEARANCE:
+- Lung fields appear relatively clear.
+- No obvious focal consolidation is identified.
+- No significant pleural effusion is observed.
+- The heart size may appear within expected limits.
+
+IMPORTANT:
+A normal chest X-ray does not guarantee
+that a person has no medical condition.
+
+Image quality, patient history and clinical
+symptoms must also be considered.
+
+Machine learning predictions may be incorrect
+and should not replace radiologist interpretation.
+
