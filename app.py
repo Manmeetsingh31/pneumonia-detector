@@ -566,6 +566,11 @@ medical decision.
 """
 
 
+def navigate_to(page):
+    """Change the sidebar page before Streamlit recreates its widgets."""
+    st.session_state.nav = page
+
+
 def page_header(title, subtitle):
     st.markdown(
         f'<div class="page-title">{title}</div>'
@@ -800,13 +805,13 @@ def render_overview():
             unsafe_allow_html=True
         )
 
-        if st.button(
+        st.button(
             "Open X-ray Detection →",
             key="go_detect",
-            use_container_width=True
-        ):
-            st.session_state.nav = PAGES[1]
-            st.rerun()
+            use_container_width=True,
+            on_click=navigate_to,
+            args=(PAGES[1],)
+        )
 
     with col2:
 
@@ -829,13 +834,13 @@ def render_overview():
             unsafe_allow_html=True
         )
 
-        if st.button(
+        st.button(
             "Open Knowledge Assistant →",
             key="go_chat",
-            use_container_width=True
-        ):
-            st.session_state.nav = PAGES[2]
-            st.rerun()
+            use_container_width=True,
+            on_click=navigate_to,
+            args=(PAGES[2],)
+        )
 
     st.markdown(
         '<div class="section-title">Built with</div>',
