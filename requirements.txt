@@ -1,6 +1,10 @@
+
 streamlit
-tensorflow
-numpy
+tensorflow==2.20.0
+numpy==2.1.3
 Pillow
 matplotlib
 gdown
+sentence-transformers
+faiss-cpu
+requests
