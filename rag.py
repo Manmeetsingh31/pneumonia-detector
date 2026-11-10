@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import faiss
+import requests
 from sentence_transformers import SentenceTransformer
 
 
@@ -15,6 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent
 KB_FOLDER = BASE_DIR / "knowledge_base"
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+LLM_MODEL = "llama3.2"
+
+OLLAMA_API = "http://localhost:11434/api/generate"
 
 
 # ==========================================
@@ -43,9 +47,7 @@ def chunk_text(text, chunk_size=120, overlap=20):
     start = 0
 
     while start < len(words):
-
         end = start + chunk_size
-
         chunk = " ".join(words[start:end])
 
         if chunk.strip():
@@ -60,6 +62,9 @@ def chunk_text(text, chunk_size=120, overlap=20):
 
 
 print("Reading knowledge base...")
+
+if not KB_FOLDER.exists():
+    raise FileNotFoundError("knowledge_base folder not found!")
 
 for file in sorted(os.listdir(KB_FOLDER)):
 
@@ -114,9 +119,8 @@ index = faiss.IndexFlatIP(dimension)
 
 index.add(embeddings)
 
-print("FAISS index created successfully!")
+print("\nFAISS index created successfully!")
 
-print("Total documents:", len(documents))
 print("Total chunks:", index.ntotal)
 print("Vector dimensions:", dimension)
 
@@ -160,28 +164,136 @@ def retrieve_context(query, top_k=3):
 
 
 # ==========================================
-# 7. TEST RETRIEVAL
+# 7. GENERATE ANSWER USING OLLAMA
+# ==========================================
+
+def generate_answer(question, retrieved_results):
+
+    if not retrieved_results:
+        return "I could not find relevant information in the knowledge base."
+
+    # Combine retrieved chunks into context
+    context = "\n\n".join(
+        [
+            f"Source: {item['source']}\n{item['text']}"
+            for item in retrieved_results
+        ]
+    )
+
+    # Build the prompt
+    prompt = f"""
+You are a helpful educational assistant for a
+Pneumonia Detection project.
+
+Answer the user's question using ONLY the
+provided context.
+
+If the answer is not available in the context,
+clearly say that the knowledge base does not
+contain enough information.
+
+Do not invent medical facts.
+Do not diagnose patients or prescribe treatment.
+Remind users that medical questions should be
+discussed with qualified healthcare professionals
+when appropriate.
+
+CONTEXT:
+{context}
+
+USER QUESTION:
+{question}
+
+ANSWER:
+"""
+
+    # Send prompt to local Ollama API
+    response = requests.post(
+        OLLAMA_API,
+        json={
+            "model": LLM_MODEL,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "temperature": 0.2
+            }
+        },
+        timeout=180
+    )
+
+    response.raise_for_status()
+
+    result = response.json()
+
+    return result["response"].strip()
+
+
+# ==========================================
+# 8. COMPLETE RAG PIPELINE
+# ==========================================
+
+def ask_question(question, top_k=3):
+
+    print("\nRetrieving relevant information...")
+
+    retrieved_results = retrieve_context(
+        question,
+        top_k
+    )
+
+    print("\nRETRIEVED SOURCES:")
+
+    for item in retrieved_results:
+        print(
+            f"- {item['source']} "
+            f"(similarity: {item['similarity']:.4f})"
+        )
+
+    print("\nGenerating answer with Llama 3.2...")
+
+    answer = generate_answer(
+        question,
+        retrieved_results
+    )
+
+    return answer, retrieved_results
+
+
+# ==========================================
+# 9. TEST THE COMPLETE RAG PIPELINE
 # ==========================================
 
 if __name__ == "__main__":
+
+    print("\n================================")
+    print(" PNEUMONIA RAG ASSISTANT")
+    print("================================")
 
     question = "What are the common symptoms of pneumonia?"
 
     print("\nUSER QUESTION:")
     print(question)
 
-    results = retrieve_context(question)
+    try:
 
-    print("\nRETRIEVED DOCUMENTS:")
+        answer, sources = ask_question(question)
 
-    for result in results:
+        print("\n================================")
+        print("GENERATED ANSWER")
+        print("================================")
 
-        print("\nSource:", result["source"])
-        print("Chunk:", result["chunk"])
-        print("Similarity:", round(result["similarity"], 4))
+        print(answer)
 
-        print("Content:")
-        print(result["text"])
+        print("\n================================")
+        print("RAG PIPELINE COMPLETED!")
+        print("================================")
 
-    print("\nRETRIEVAL TEST COMPLETED!")
+    except requests.exceptions.ConnectionError:
 
+        print("\nERROR: Could not connect to Ollama.")
+        print("Make sure Ollama is running.")
+
+    except requests.exceptions.RequestException as error:
+
+        print("\nOLLAMA API ERROR:")
+        print(error)
