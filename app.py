@@ -826,7 +826,7 @@ def render_overview():
                 </p>
                 <ul>
                     <li>Top-3 semantic retrieval with FAISS</li>
-                    <li>Local answer generation with Llama 3.2</li>
+                    <li>Cloud answer generation with Groq GPT-OSS 20B</li>
                     <li>Transparent source documents</li>
                 </ul>
             </div>
