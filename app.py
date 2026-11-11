@@ -1192,7 +1192,7 @@ def render_about():
                     <li>Knowledge base: text documents in <code>knowledge_base/</code></li>
                     <li>Embeddings: all-MiniLM-L6-v2 (Sentence Transformers)</li>
                     <li>Vector search: FAISS, top 3 chunks</li>
-                    <li>LLM: Llama 3.2 via local Ollama API</li>
+                    <li>LLM: Groq GPT-OSS 20B via cloud API</li>
                     <li>Answers shown with document, chunk and similarity</li>
                 </ul>
             </div>
