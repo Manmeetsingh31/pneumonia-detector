@@ -1256,7 +1256,7 @@ else:
 st.markdown(
     """
     <div class="footer-note">
-        Pneumonia AI Assistant · CNN + RAG + Llama 3.2<br>
+        Pneumonia AI Assistant · CNN + RAG + Groq GPT-OSS 20B<br>
         Developed by Manmeet Singh ·
         Punjabi University, Patiala
     </div>
