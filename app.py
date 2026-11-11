@@ -1057,7 +1057,7 @@ def render_chatbot():
         "🤖 AI Knowledge Assistant",
         "Ask educational questions about pneumonia. Answers are "
         "generated from the project's knowledge base using "
-        "FAISS retrieval and Llama 3.2."
+        "FAISS retrieval and Groq GPT-OSS 20B."
     )
 
     top_col1, top_col2 = st.columns([5, 1])
