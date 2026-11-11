@@ -727,7 +727,7 @@ with st.sidebar:
             <b>Input:</b> 150 × 150 RGB<br>
             <b>Classes:</b> NORMAL / PNEUMONIA<br>
             <b>Threshold:</b> 0.5<br>
-            <b>Assistant:</b> Llama 3.2 (Ollama)
+            <b>Assistant:</b> Groq GPT-OSS 20B
         </div>
         """,
         unsafe_allow_html=True
