@@ -1211,7 +1211,7 @@ def render_about():
         <span class="badge">🧠 TensorFlow / Keras</span>
         <span class="badge">🔎 FAISS</span>
         <span class="badge">🔤 Sentence Transformers</span>
-        <span class="badge">🦙 Ollama · Llama 3.2</span>
+        <span class="badge">	⚡ Groq · GPT-OSS 20B</span>
         <span class="badge">🎈 Streamlit</span>
         """,
         unsafe_allow_html=True
