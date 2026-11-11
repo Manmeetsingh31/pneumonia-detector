@@ -639,9 +639,10 @@ def answer_question(question):
         except requests.exceptions.ConnectionError:
 
             error_message = (
-                "Could not connect to Ollama. "
-                "Please make sure Ollama is running "
-                "at http://localhost:11434."
+                "Could not connect to the Groq API. "
+                "Please check your internet connection "
+                "and verify that your GROQ_API_KEY is configured "
+                "correctly in Streamlit Cloud Secrets."
             )
 
             st.error(error_message)
