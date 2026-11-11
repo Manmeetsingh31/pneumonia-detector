@@ -745,7 +745,7 @@ with st.sidebar:
             TensorFlow / Keras<br>
             FAISS<br>
             Sentence Transformers<br>
-            Ollama<br>
+            Groq API<br>
             Streamlit
         </div>
         """,
