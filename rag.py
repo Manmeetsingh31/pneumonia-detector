@@ -5,7 +5,7 @@ import faiss
 import numpy as np
 import requests
 import streamlit as st
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 
 # ==========================================
